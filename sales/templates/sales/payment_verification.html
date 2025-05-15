@@ -1,0 +1,179 @@
+{% extends "sales/base.html" %}
+
+{% block title %}Payment Verification - JeVoucher{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-body p-4 text-center">
+                {% if status == 'success' %}
+                <div class="mb-4">
+                    <div class="success-icon mb-4">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <h2 class="card-title mb-4">Payment Successful!</h2>
+
+                    <div class="voucher-details p-4 rounded mb-4">
+                        <h5 class="mb-4">Your WiFi Voucher Details</h5>
+                        <div class="voucher-code mb-4">
+                            <div class="code-label text-muted mb-2">Voucher Code</div>
+                            <div class="code-value">{{ transaction.voucher.code }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        <i class="bi bi-clock me-2"></i>Duration
+                                    </div>
+                                    <div class="detail-value">
+                                        {{ transaction.voucher.duration.duration_hours }} Hours
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        <i class="bi bi-calendar me-2"></i>Expires
+                                    </div>
+                                    <div class="detail-value">
+                                        {{ transaction.voucher.expires_at|date:"F j, Y, g:i a" }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info mb-4">
+                        <div class="email-sent">
+                            <i class="bi bi-envelope-check me-2"></i>
+                            We've sent these details to your email:
+                            <strong>{{ transaction.customer_email }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-3">
+                        <button class="btn btn-outline-primary btn-lg"
+                            onclick="copyVoucherCode('{{ transaction.voucher.code }}')">
+                            <i class="bi bi-clipboard me-2"></i>Copy Voucher Code
+                        </button>
+                        <a href="{% url 'sales:voucher_list' %}" class="btn btn-primary btn-lg">
+                            <i class="bi bi-cart-plus me-2"></i>Buy Another Voucher
+                        </a>
+                    </div>
+                </div>
+                {% else %}
+                <div class="mb-4">
+                    <div class="error-icon mb-4">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </div>
+                    <h2 class="card-title mb-4">Payment Failed</h2>
+
+                    <div class="alert alert-danger mb-4">
+                        <p class="mb-0">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            We couldn't process your payment. Please try again or contact support if the problem
+                            persists.
+                        </p>
+                    </div>
+
+                    <div class="d-grid gap-3">
+                        <a href="{% url 'sales:initiate_payment' %}?duration={{ transaction.voucher.duration.id }}"
+                            class="btn btn-primary btn-lg">
+                            <i class="bi bi-arrow-clockwise me-2"></i>Try Again
+                        </a>
+                        <a href="{% url 'sales:voucher_list' %}" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-arrow-left me-2"></i>Choose Different Plan
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .success-icon {
+        font-size: 4rem;
+        color: var(--success-color);
+    }
+
+    .error-icon {
+        font-size: 4rem;
+        color: var(--danger-color);
+    }
+
+    .voucher-details {
+        background-color: rgba(37, 99, 235, 0.05);
+        border: 1px solid rgba(37, 99, 235, 0.1);
+    }
+
+    .voucher-code {
+        padding: 1rem;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .code-value {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        letter-spacing: 2px;
+    }
+
+    .detail-item {
+        text-align: center;
+        padding: 1rem;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .detail-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .detail-value {
+        color: var(--text-primary);
+        font-weight: 600;
+    }
+
+    .email-sent {
+        font-size: 0.95rem;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+{% if status == 'success' %}
+<script>
+    function copyVoucherCode(code) {
+        navigator.clipboard.writeText(code).then(function () {
+            // Create a temporary alert
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
+            alert.style.zIndex = '9999';
+            alert.innerHTML = `
+                <i class="bi bi-check-circle me-2"></i>
+                Voucher code copied to clipboard!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            document.body.appendChild(alert);
+
+            // Remove the alert after 3 seconds
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
+        }).catch(function (err) {
+            alert('Could not copy voucher code. Please copy it manually.');
+        });
+    }
+</script>
+{% endif %}
+{% endblock %}

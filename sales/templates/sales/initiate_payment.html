@@ -1,0 +1,186 @@
+{% extends "sales/base.html" %}
+
+{% block title %}Purchase Voucher - JeVoucher{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-4">
+                    <i class="bi bi-cart-check me-2"></i>Purchase Details
+                </h2>
+
+                {% if duration %}
+                <div class="mb-4">
+                    <div class="selected-plan p-4 rounded">
+                        <div class="text-center mb-4">
+                            <div class="duration-badge mb-3">
+                                <i class="bi bi-clock me-2"></i>{{ duration.duration_hours }} Hours
+                            </div>
+                            <h4 class="mb-2">{{ duration.name }}</h4>
+                            <div class="price-tag mb-0">GH₵ {{ duration.price }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="payment-form" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    <input type="hidden" name="duration" value="{{ duration.id }}">
+
+                    <div class="mb-4">
+                        <label for="email" class="form-label">
+                            <i class="bi bi-envelope me-2"></i>Email Address
+                        </label>
+                        <input type="email" class="form-control form-control-lg" id="email" name="email" required
+                            placeholder="Enter your email address">
+                        <div class="invalid-feedback">
+                            Please provide a valid email address.
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="phone" class="form-label">
+                            <i class="bi bi-phone me-2"></i>Phone Number (Required for Mobile Money)
+                        </label>
+                        <input type="tel" class="form-control form-control-lg" id="phone" name="phone" required
+                            placeholder="Enter your phone number">
+                        <div class="invalid-feedback">
+                            Please provide a valid phone number.
+                        </div>
+                    </div>
+
+                    <div class="payment-info alert alert-info mb-4">
+                        <h5 class="mb-3">
+                            <i class="bi bi-info-circle me-2"></i>Payment Information
+                        </h5>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2">
+                                <i class="bi bi-check2 me-2"></i>Mobile Money payments are processed instantly
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-check2 me-2"></i>Your voucher will be delivered immediately after
+                                payment
+                            </li>
+                            <li>
+                                <i class="bi bi-check2 me-2"></i>24/7 customer support available
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="d-grid gap-3">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-credit-card me-2"></i>Pay GH₵ {{ duration.price }}
+                        </button>
+                        <a href="{% url 'sales:voucher_list' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>Choose Different Plan
+                        </a>
+                    </div>
+                </form>
+                {% else %}
+                <div class="alert alert-danger">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    No voucher duration selected. Please <a href="{% url 'sales:voucher_list' %}">choose a plan</a>.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .selected-plan {
+        background-color: rgba(37, 99, 235, 0.05);
+        border: 1px solid rgba(37, 99, 235, 0.1);
+        border-radius: 12px;
+    }
+
+    .payment-info {
+        background-color: rgba(37, 99, 235, 0.05);
+        border: 1px solid rgba(37, 99, 235, 0.1);
+    }
+
+    .payment-info ul li {
+        color: var(--text-secondary);
+    }
+
+    .form-control-lg {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('payment-form');
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Basic form validation
+            if (!form.checkValidity()) {
+                e.stopPropagation();
+                form.classList.add('was-validated');
+                return;
+            }
+
+            // Show loading spinner
+            showLoading();
+
+            try {
+                // Initialize payment
+                const response = await fetch("{% url 'sales:initiate_payment' %}", {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    // Initialize Paystack payment
+                    const handler = PaystackPop.setup({
+                        key: '{{ paystack_public_key }}',
+                        email: document.getElementById('email').value,
+                        amount: data.payment_data.amount,
+                        currency: "GHS",
+                        ref: data.payment_data.reference,
+                        mobile_money: {
+                            phone: document.getElementById('phone').value,
+                            provider: "MTN"
+                        },
+                        callback: function (response) {
+                            // Redirect to verification page
+                            window.location.href = data.payment_data.callback_url;
+                        },
+                        onClose: function () {
+                            hideLoading();
+                            alert('Payment window closed. Please try again.');
+                        }
+                    });
+                    handler.openIframe();
+                } else {
+                    hideLoading();
+                    alert(data.message || 'An error occurred. Please try again.');
+                }
+            } catch (error) {
+                hideLoading();
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    });
+</script>
+{% endblock %}
