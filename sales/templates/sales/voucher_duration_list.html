@@ -11,29 +11,31 @@
 <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
     {% for duration in durations %}
     <div class="col">
-        <div class="card h-100">
+        <div class="card h-100 accent-bg-blue">
             <div class="card-body text-center p-4">
-                <div class="duration-badge">
+                <div class="duration-badge accent-bg-yellow text-dark">
                     <i class="bi bi-clock me-2"></i>{{ duration.duration_hours }} Hours
                 </div>
-                <h4 class="card-title mb-3">{{ duration.name }}</h4>
-                <div class="price-tag">GH₵ {{ duration.price }}</div>
+                <h4 class="card-title mb-3 text-white">{{ duration.name }}</h4>
+                <div class="price-tag" style="color: #fff; text-shadow: 0 2px 8px #fde68a99;">
+                    GH₵ {{ duration.price }}
+                </div>
                 <div class="features mb-4">
                     <div class="feature-item">
                         <i class="bi bi-check-circle-fill text-success me-2"></i>
-                        Instant Access
+                        <span class="text-white">Instant Access</span>
                     </div>
                     <div class="feature-item">
                         <i class="bi bi-check-circle-fill text-success me-2"></i>
-                        High Speed Internet
+                        <span class="text-white">High Speed Internet</span>
                     </div>
                     <div class="feature-item">
                         <i class="bi bi-check-circle-fill text-success me-2"></i>
-                        24/7 Support
+                        <span class="text-white">24/7 Support</span>
                     </div>
                 </div>
                 <a href="{% url 'sales:initiate_payment' %}?duration={{ duration.id }}"
-                    class="btn btn-primary btn-lg w-100">
+                    class="btn btn-primary btn-lg w-100 shadow-lg" style="font-size:1.2rem;">
                     <i class="bi bi-cart-fill me-2"></i>Buy Now
                 </a>
             </div>
@@ -41,7 +43,7 @@
     </div>
     {% empty %}
     <div class="col-12">
-        <div class="alert alert-info text-center">
+        <div class="alert alert-info text-center accent-bg-yellow">
             <i class="bi bi-info-circle-fill me-2"></i>
             No vouchers are currently available. Please check back later.
         </div>
@@ -51,9 +53,9 @@
 
 {% if durations %}
 <div class="text-center mt-5">
-    <div class="card p-4 mx-auto" style="max-width: 600px;">
-        <h5 class="mb-3"><i class="bi bi-shield-check me-2"></i>Secure Payment</h5>
-        <p class="text-muted mb-0">
+    <div class="card p-4 mx-auto accent-bg-pink" style="max-width: 600px;">
+        <h5 class="mb-3 text-white"><i class="bi bi-shield-check me-2"></i>Secure Payment</h5>
+        <p class="text-white mb-0">
             All transactions are secured and encrypted. We accept Mobile Money and Card payments through Paystack.
         </p>
     </div>
@@ -65,8 +67,8 @@
 <style>
     .feature-item {
         margin-bottom: 0.5rem;
-        color: var(--text-secondary);
-        font-size: 0.95rem;
+        color: #fff;
+        font-size: 1.05rem;
     }
 
     .features {

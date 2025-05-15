@@ -14,142 +14,164 @@
     <!-- Custom CSS -->
     <style>
         :root {
-            --primary-color: #2563eb;
-            --secondary-color: #475569;
-            --success-color: #16a34a;
-            --warning-color: #ca8a04;
-            --danger-color: #dc2626;
+            --primary-color: #7c3aed;
+            --primary-gradient: linear-gradient(90deg, #7c3aed 0%, #06b6d4 100%);
+            --secondary-color: #f59e42;
+            --success-color: #22c55e;
+            --warning-color: #fbbf24;
+            --danger-color: #ef4444;
+            --background-gradient: linear-gradient(135deg, #f0abfc 0%, #7dd3fc 100%);
             --background-color: #f8fafc;
-            --card-background: #ffffff;
+            --card-background: #ffffffcc;
             --text-primary: #1e293b;
             --text-secondary: #64748b;
+            --accent-pink: #f472b6;
+            --accent-yellow: #fde68a;
+            --accent-blue: #38bdf8;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--background-color);
+            background: var(--background-gradient);
             color: var(--text-primary);
+            min-height: 100vh;
             line-height: 1.6;
         }
 
         .navbar {
-            background: var(--primary-color);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background: var(--primary-gradient);
+            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.08);
             padding: 1rem 0;
         }
 
         .navbar-brand {
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             color: white !important;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px #7c3aed33;
         }
 
         .card {
             border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(124, 58, 237, 0.10), 0 1.5px 4px 0 rgba(6, 182, 212, 0.10);
             background: var(--card-background);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-7px) scale(1.03);
+            box-shadow: 0 16px 40px 0 rgba(124, 58, 237, 0.18), 0 2px 8px 0 rgba(6, 182, 212, 0.12);
         }
 
         .btn {
-            padding: 0.75rem 1.5rem;
+            padding: 0.85rem 1.7rem;
             font-weight: 600;
-            border-radius: 8px;
-            transition: all 0.2s ease;
+            border-radius: 10px;
+            transition: all 0.2s;
+            font-size: 1.1rem;
         }
 
         .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+            background: var(--primary-gradient);
+            border: none;
+            color: #fff;
+            box-shadow: 0 2px 8px #7c3aed33;
         }
 
         .btn-primary:hover {
-            background-color: #1d4ed8;
-            border-color: #1d4ed8;
-            transform: translateY(-1px);
+            background: linear-gradient(90deg, #06b6d4 0%, #7c3aed 100%);
+            color: #fff;
+            transform: translateY(-2px) scale(1.04);
         }
 
         .btn-outline-secondary {
-            color: var(--secondary-color);
-            border-color: var(--secondary-color);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            background: #fff;
         }
 
         .btn-outline-secondary:hover {
-            background-color: var(--secondary-color);
-            color: white;
-            transform: translateY(-1px);
+            background: var(--primary-gradient);
+            color: #fff;
+            border: none;
         }
 
         .form-control {
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            font-size: 1rem;
+            padding: 0.85rem 1.1rem;
+            border-radius: 10px;
+            border: 1.5px solid #e2e8f0;
+            font-size: 1.08rem;
         }
 
         .form-control:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 3px #7c3aed22;
         }
 
         .alert {
-            border-radius: 8px;
+            border-radius: 10px;
             border: none;
-            padding: 1rem;
+            padding: 1.1rem;
         }
 
         .footer {
-            background: #1e293b;
-            color: #e2e8f0;
-            padding: 2rem 0;
+            background: var(--primary-gradient);
+            color: #fff;
+            padding: 2.2rem 0 1.2rem 0;
             margin-top: 4rem;
+            box-shadow: 0 -2px 8px #7c3aed33;
+        }
+
+        .footer p {
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
         }
 
         /* Price tag styling */
         .price-tag {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
+            font-size: 2.7rem;
+            font-weight: 800;
+            color: var(--accent-pink);
             margin: 1.5rem 0;
+            text-shadow: 0 2px 8px #f472b633;
         }
 
         /* Duration badge */
         .duration-badge {
-            background-color: rgba(37, 99, 235, 0.1);
-            color: var(--primary-color);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-weight: 600;
+            background: var(--accent-blue);
+            color: #fff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 22px;
+            font-weight: 700;
             display: inline-block;
-            margin-bottom: 1rem;
+            margin-bottom: 1.1rem;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 8px #38bdf833;
         }
 
         /* Container padding */
         .main-container {
-            padding: 2rem 0;
+            padding: 2.5rem 0 2rem 0;
         }
 
         /* Page headers */
         .page-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 3.2rem;
         }
 
         .page-header h1 {
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 1.1rem;
+            text-shadow: 0 2px 8px #7c3aed33;
         }
 
         .page-header p {
             color: var(--text-secondary);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
         }
 
         /* Loading spinner */
@@ -169,6 +191,22 @@
         .spinner-border {
             width: 3rem;
             height: 3rem;
+        }
+
+        /* Vibrant accent backgrounds */
+        .accent-bg-pink {
+            background: var(--accent-pink) !important;
+            color: #fff !important;
+        }
+
+        .accent-bg-yellow {
+            background: var(--accent-yellow) !important;
+            color: #b45309 !important;
+        }
+
+        .accent-bg-blue {
+            background: var(--accent-blue) !important;
+            color: #fff !important;
         }
     </style>
     {% block extra_css %}{% endblock %}
@@ -219,7 +257,6 @@
         function showLoading() {
             document.getElementById('loading-spinner').style.display = 'flex';
         }
-
         // Hide loading spinner
         function hideLoading() {
             document.getElementById('loading-spinner').style.display = 'none';
