@@ -97,55 +97,58 @@
 {% block extra_css %}
 <style>
     .success-icon {
-        font-size: 4rem;
-        color: var(--success-color);
+        font-size: 3.2rem;
+        color: var(--success);
+        margin-bottom: 0.5rem;
     }
 
     .error-icon {
-        font-size: 4rem;
-        color: var(--danger-color);
+        font-size: 3.2rem;
+        color: var(--danger);
+        margin-bottom: 0.5rem;
     }
 
     .voucher-details {
-        background-color: rgba(37, 99, 235, 0.05);
-        border: 1px solid rgba(37, 99, 235, 0.1);
+        background-color: var(--accent-light);
+        border: 1px solid var(--border);
+        border-radius: 12px;
     }
 
     .voucher-code {
         padding: 1rem;
-        background-color: white;
+        background-color: #fff;
         border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
     }
 
     .code-value {
         font-size: 1.5rem;
         font-weight: 600;
-        color: var(--primary-color);
+        color: var(--accent);
         letter-spacing: 2px;
     }
 
     .detail-item {
         text-align: center;
         padding: 1rem;
-        background-color: white;
+        background-color: #fff;
         border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
     }
 
     .detail-label {
-        color: var(--text-secondary);
-        font-size: 0.9rem;
+        color: var(--text-muted);
+        font-size: 0.95rem;
         margin-bottom: 0.5rem;
     }
 
     .detail-value {
-        color: var(--text-primary);
+        color: var(--text-main);
         font-weight: 600;
     }
 
     .email-sent {
-        font-size: 0.95rem;
+        font-size: 0.98rem;
     }
 </style>
 {% endblock %}
@@ -165,11 +168,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             `;
             document.body.appendChild(alert);
-
-            // Remove the alert after 3 seconds
-            setTimeout(() => {
-                alert.remove();
-            }, 3000);
+            setTimeout(() => { alert.remove(); }, 3000);
         }).catch(function (err) {
             alert('Could not copy voucher code. Please copy it manually.');
         });

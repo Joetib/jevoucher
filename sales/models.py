@@ -3,6 +3,8 @@ from django.utils import timezone
 from django.core.validators import MinValueValidator
 import uuid
 
+from sales.paystack import PayStack
+
 
 class VoucherDuration(models.Model):
     """
@@ -103,3 +105,17 @@ class Transaction(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+
+    def amount_value(self):
+        return self.amount * 100
+
+    def verify_payment(self):
+        paystack = PayStack()
+        status, result = paystack.verify_payment(self.payment_reference, self.amount)
+        if status:
+            self.paystack_response = result
+            if result["amount"] / 100 == self.amount:
+                self.completed = True
+            self.save()
+            return True
+        return False

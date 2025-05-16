@@ -94,7 +94,8 @@ class VerifyPaymentView(TemplateView):
 
         # TODO: Verify payment with Paystack
         # This is a placeholder - implement actual Paystack verification
-        payment_verified = True  # Replace with actual verification
+
+        payment_verified = transaction.verify_payment()
 
         if payment_verified:
             transaction.status = "successful"
