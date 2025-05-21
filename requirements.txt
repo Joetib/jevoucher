@@ -13,3 +13,4 @@ sqlparse==0.5.3
 typing_extensions==4.13.2
 urllib3==2.4.0
 wheel==0.45.1
+PyPDF2==3.0.1

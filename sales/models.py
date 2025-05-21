@@ -111,7 +111,7 @@ class Transaction(models.Model):
 
     def verify_payment(self):
         paystack = PayStack()
-        status, result = paystack.verify_payment(self.payment_reference, self.amount)
+        status, result = paystack.verify_payment(self.reference, self.amount)
         if status:
             self.paystack_response = result
             if result["amount"] / 100 == self.amount:
@@ -119,3 +119,20 @@ class Transaction(models.Model):
             self.save()
             return True
         return False
+
+
+class VoucherFile(models.Model):
+    """
+    Model to store uploaded voucher PDF files
+    """
+
+    file = models.FileField(upload_to="voucher_files/")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    processed = models.BooleanField(default=False)
+    error_message = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Voucher File {self.uploaded_at}"
+
+    class Meta:
+        ordering = ["-uploaded_at"]
