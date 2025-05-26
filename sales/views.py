@@ -6,6 +6,8 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils import timezone
 
+from sales.sms import SmsApi
+
 from .models import VoucherDuration, Voucher, Transaction
 
 
@@ -113,6 +115,15 @@ class VerifyPaymentView(TemplateView):
             )
             transaction.voucher.expires_at = expires_at
             transaction.voucher.save()
+
+            # Send SMS notification with voucher details
+            sms_api = SmsApi()
+            message = f"Your voucher code is {transaction.voucher.code}. Valid for {transaction.voucher.duration.duration_hours} hours."
+            sms_api.send(
+                recipients=[transaction.customer_phone],
+                message=message,
+                sender_id=settings.SMS_API_SENDER_ID,
+            )
 
             return render(
                 request,
