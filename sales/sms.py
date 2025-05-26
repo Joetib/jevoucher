@@ -3,11 +3,7 @@ import requests
 from django.conf import settings
 import logging
 
-logging.basicConfig(
-    filename="sms_api.log",
-    level=logging.ERROR,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
+logger = logging.getLogger(__name__)
 
 
 class SmsApi:
@@ -32,8 +28,8 @@ class SmsApi:
             print(response_data)
             return response_data["status"] == "0000"
         except Exception as e:
-            logging.error("An error occurred: %s", e)
-            logging.error("Response content: %s", response.content)
+            logger.error("An error occurred: %s", e)
+            logger.error("Response content: %s", response.content)
             raise e
 
     def clean_recipients(self, recipients: List[str]) -> List[str]:
