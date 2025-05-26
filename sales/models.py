@@ -151,6 +151,9 @@ class VoucherFile(models.Model):
     file = models.FileField(upload_to="voucher_files/")
     uploaded_at = models.DateTimeField(auto_now_add=True)
     processed = models.BooleanField(default=False)
+    duration = models.ForeignKey(
+        VoucherDuration, on_delete=models.CASCADE, related_name="voucher_files"
+    )
     error_message = models.TextField(blank=True, null=True)
 
     def __str__(self):

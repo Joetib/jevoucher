@@ -1,9 +1,7 @@
 from django.contrib import admin
 from django.contrib import messages
 from .models import VoucherDuration, Voucher, Transaction, VoucherFile
-import PyPDF2
-import re
-import uuid
+import csv
 
 
 @admin.register(VoucherDuration)
@@ -54,8 +52,9 @@ class TransactionAdmin(admin.ModelAdmin):
 
 @admin.register(VoucherFile)
 class VoucherFileAdmin(admin.ModelAdmin):
-    list_display = ("uploaded_at", "processed", "error_message")
+    list_display = ("uploaded_at", "processed", "error_message", "duration")
     readonly_fields = ("uploaded_at", "processed", "error_message")
+    list_filter = ("duration",)
     actions = ["process_voucher_file"]
 
     def process_voucher_file(self, request, queryset):
@@ -69,34 +68,24 @@ class VoucherFileAdmin(admin.ModelAdmin):
                 continue
 
             try:
-                # Open and read the PDF file
-                pdf_reader = PyPDF2.PdfReader(voucher_file.file)
+                # Read and parse the CSV file
+                with open(voucher_file.file.path, "r") as csvfile:
+                    csv_reader = csv.DictReader(csvfile)
 
-                # Extract text from all pages
-                text = ""
-                for page in pdf_reader.pages:
-                    text += page.extract_text()
+                    # Get the default duration
+                    default_duration = voucher_file.duration
 
-                # Extract voucher codes using regex
-                # Assuming voucher codes are in a specific format
-                # Adjust the regex pattern based on your actual voucher code format
-                voucher_codes = re.findall(r"[A-Z0-9]{8,}", text)
+                    if not default_duration:
+                        raise ValueError("No active voucher duration found")
 
-                # Get the default duration (you might want to make this configurable)
-                default_duration = VoucherDuration.objects.filter(
-                    is_active=True
-                ).first()
-
-                if not default_duration:
-                    raise ValueError("No active voucher duration found")
-
-                # Create vouchers for each code
-                created_count = 0
-                for code in voucher_codes:
-                    # Check if voucher code already exists
-                    if not Voucher.objects.filter(code=code).exists():
-                        Voucher.objects.create(code=code, duration=default_duration)
-                        created_count += 1
+                    # Create vouchers for each code
+                    created_count = 0
+                    for row in csv_reader:
+                        code = row["Code"].strip()
+                        # Check if voucher code already exists
+                        if not Voucher.objects.filter(code=code).exists():
+                            Voucher.objects.create(code=code, duration=default_duration)
+                            created_count += 1
 
                 voucher_file.processed = True
                 voucher_file.save()
