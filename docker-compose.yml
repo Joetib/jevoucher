@@ -11,6 +11,11 @@ services:
       - 8002:8000
     env_file:
       - .env
+    environment:
+      - POSTGRES_DB=jevoucher
+      - POSTGRES_USER=jevoucher
+      - POSTGRES_PASSWORD=jevoucher_password
+      - POSTGRES_HOST=db
     depends_on:
       - db
 

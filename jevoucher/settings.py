@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 from decouple import config
 
@@ -91,8 +92,12 @@ WSGI_APPLICATION = "jevoucher.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("POSTGRES_DB", default="jevoucher"),
+        "USER": config("POSTGRES_USER", default="jevoucher"),
+        "PASSWORD": config("POSTGRES_PASSWORD", default="jevoucher_password"),
+        "HOST": config("POSTGRES_HOST", default="db"),
+        "PORT": "5432",
     }
 }
 
