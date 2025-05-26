@@ -98,14 +98,14 @@ class VerifyPaymentView(TemplateView):
         # This is a placeholder - implement actual Paystack verification
 
         # payment_verified = transaction.verify_payment()
-        payment_verified = True
+        payment_verified = transaction.verify_payment()
 
         if payment_verified:
             transaction.status = "successful"
             transaction.save()
 
             # Mark voucher as sold
-            transaction.voucher.mark_as_sold()
+            transaction.get_voucher().mark_as_sold()
 
             # Calculate expiration time
             expires_at = timezone.now() + timezone.timedelta(

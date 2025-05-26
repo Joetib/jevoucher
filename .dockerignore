@@ -1,13 +1,10 @@
-*.pyc
-__pycache__/
-db.sqlite3
 .env
-staticfiles/
 venv/
-env/
+.venv/
+.git/
+.gitignore
 voucher_files/
-media/
-
+db.sqlite3
 __pycache__/
 *.pyc
 *.pyo

@@ -90,7 +90,11 @@ class Transaction(models.Model):
 
     reference = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     voucher = models.OneToOneField(
-        Voucher, on_delete=models.PROTECT, related_name="transaction"
+        Voucher,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name="transaction",
     )
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_reference = models.CharField(max_length=100, null=True, blank=True)
@@ -105,6 +109,24 @@ class Transaction(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+
+    def get_voucher(self) -> Voucher | None:
+        if self.voucher:
+            return self.voucher
+        if not self.completed and self.reference:
+            self.verify_payment()
+        if self.completed:
+            self.voucher = (
+                Voucher.objects.filter(
+                    status="available",
+                    duration__price=self.amount,
+                    duration__is_active=True,
+                )
+                .order_by("created_at")
+                .first()
+            )
+            return self.voucher
+        return None
 
     def amount_value(self):
         return self.amount * 100
