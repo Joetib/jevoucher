@@ -1,3 +1,4 @@
+import json
 from typing import List
 import requests
 from django.conf import settings
@@ -7,30 +8,38 @@ logger = logging.getLogger(__name__)
 
 
 class SmsApi:
-    BASE_URL = "https://sms.textcus.com/api/send"
+    BASE_URL = "https://sms.textcus.com/api/v2/send"
     API_KEY = settings.SMS_API_KEY
 
     def send(self, recipients: List[str], message: str, sender_id: str) -> bool:
         recipients = self.clean_recipients(recipients)
         recipients_string = ",".join(recipients)
-        params = {
-            "apikey": self.API_KEY,
+
+        data = {
             "destination": recipients_string,
-            "message": message,
             "source": sender_id,
             "dlr": 0,
             "type": 0,
+            "message": message,
         }
-        url = "https://sms.textcus.com/api/send"
+
+        headers = {
+            "Authorization": f"Bearer {self.API_KEY}",  # Replace 'API_KEY' with your actual API Key
+            "Content-Type": "application/json",
+        }
+
         try:
-            response = requests.get(url, params=params)
-            response_data = response.json()
-            print(response_data)
-            return response_data["status"] == "0000"
+            response = requests.get(
+                self.BASE_URL, params=data, headers=headers, timeout=30
+            )
+
+            response.raise_for_status()
+            print(response.json())
+            return True
         except Exception as e:
             logger.error("An error occurred: %s", e)
             logger.error("Response content: %s", response.content)
-            raise e
+            return False
 
     def clean_recipients(self, recipients: List[str]) -> List[str]:
         cleaned_list: List[str] = []
