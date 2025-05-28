@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 class SmsApi:
-    BASE_URL = "https://sms.textcus.com/api/v2/send"
+    BASE_URL = "https://apps.mnotify.net/smsapi"
     API_KEY = settings.SMS_API_KEY
 
     def send(self, recipients: List[str], message: str, sender_id: str) -> bool:
@@ -21,6 +21,12 @@ class SmsApi:
             "dlr": 0,
             "type": 0,
             "message": message,
+        }
+        data = {
+            "key": self.API_KEY,
+            "to": recipients_string,
+            "msg": message,
+            "sender_id": sender_id,
         }
 
         headers = {
