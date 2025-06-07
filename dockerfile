@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
     cron \
+    procps \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
@@ -26,7 +27,7 @@ COPY cronfile /etc/cron.d/check_transactions
 # Set permissions for crontab file
 RUN chmod 0644 /etc/cron.d/check_transactions
 # Create log file and set permissions
-RUN touch /var/log/cron.log && chmod 0666 /var/log/cron.log
+RUN touch /app/task.log 
 
 # Copy project files
 COPY . .
@@ -37,6 +38,7 @@ COPY . .
 
 # Start cron service
 RUN service cron start
+RUN crontab /etc/cron.d/check_transactions
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
@@ -45,4 +47,4 @@ RUN python manage.py collectstatic --noinput
 EXPOSE 8000
 
 # Run the application
-CMD ["gunicorn", "jevoucher.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["service", "cron", "start", "&&", "gunicorn", "jevoucher.wsgi:application", "--bind", "0.0.0.0:8000"]

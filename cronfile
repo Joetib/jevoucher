@@ -1,1 +1,1 @@
-*/1 * * * * cd /app && python manage.py check_pending_transactions >> /app/task.log 2>&1
+* * * * *  root  cd /app && /usr/local/bin/python manage.py check_pending_transactions >> /app/task.log 2>&1

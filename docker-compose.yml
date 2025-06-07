@@ -3,7 +3,7 @@ version: '3.8'
 services:
   web:
     build: .
-    command: gunicorn jevoucher.wsgi:application --bind 0.0.0.0:8000
+    command: bash -c "service cron start && gunicorn jevoucher.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - ./staticfiles:/app/staticfiles
       - ./media:/app/media
