@@ -15,6 +15,8 @@ class PayStack:
         }
         url = "{}{}".format(self.base_url, path)
 
+        print("headers", headers)
+        print("url", url)
         response = requests.get(url, headers=headers)
 
         print(
