@@ -16,3 +16,4 @@ wheel==0.45.1
 PyPDF2==3.0.1
 gunicorn
 whitenoise
+django-cors-headers

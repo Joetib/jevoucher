@@ -53,10 +53,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "whitenoise.runserver_nostatic",
     # Local apps
+    "corsheaders",
     "sales.apps.SalesConfig",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -161,18 +163,30 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 PAYSTACK_SECRET_KEY = config("PAYSTACK_SECRET_KEY", default="")
 PAYSTACK_PUBLIC_KEY = config("PAYSTACK_PUBLIC_KEY", default="")
 
-# CSRF settings
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.joetib.com",
-    "http://*.joetib.com",
-]
 
 # Security settings for SSL/HTTPS
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = config("ENABLE_SSL", default=False, cast=bool)
+SESSION_COOKIE_SECURE = config("ENABLE_SSL", default=False, cast=bool)
+CSRF_COOKIE_SECURE = config("ENABLE_SSL", default=False, cast=bool)
 
 
 SMS_API_KEY = config("SMS_API_KEY", default="")
 SMS_API_SENDER_ID = config("SMS_API_SENDER_ID", default="")
+
+
+CSRF_TRUSTED_ORIGINS = [
+    *[
+        origin
+        for host in ALLOWED_HOSTS
+        for scheme in ["http", "https"]
+        for origin in [
+            f"{scheme}://{host}",
+            f"{scheme}://*.{host}"
+            if not host.startswith("*")
+            else f"{scheme}://{host}",
+        ]
+    ]
+]
+
+CORS_ALLOWED_ORIGINS = CSRF_TRUSTED_ORIGINS
