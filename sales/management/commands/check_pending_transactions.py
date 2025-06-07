@@ -21,6 +21,10 @@ class Command(BaseCommand):
     help = "Checks pending transactions and verifies their payment status"
 
     def handle(self, *args, **options):
+        from sales.paystack import PayStack
+
+        print(PayStack().verify_payment("1234567890", 1000))
+
         # Get transactions from the last 10 minutes that are still pending
         self.stdout.write("[ ] Checking pending transactions")
         time_threshold = timezone.now() - timedelta(minutes=10)
