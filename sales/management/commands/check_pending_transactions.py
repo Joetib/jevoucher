@@ -58,7 +58,7 @@ class Command(BaseCommand):
                         # Send SMS notification
                         if transaction.customer_phone:
                             sms_api = SmsApi()
-                            message = f"Your voucher code is {voucher.code}. Valid for {voucher.duration.duration_hours} hours."
+                            message = f"Your voucher code is {voucher.code} \nValid for {voucher.duration.duration_hours} hours."
                             sms_sent = sms_api.send(
                                 recipients=[transaction.customer_phone],
                                 message=message,
@@ -87,14 +87,14 @@ class Command(BaseCommand):
                     # Mark transaction as failed if payment verification fails
                     self.stdout.write(
                         self.style.WARNING(
-                            f"  [x]Payment verification failed for transaction {transaction.reference}"
+                            f"  [x] Payment verification failed for transaction {transaction.reference}"
                         )
                     )
 
             except Exception as e:
                 self.stdout.write(
                     self.style.ERROR(
-                        f"  [x]Error processing transaction {transaction.reference}: {str(e)}"
+                        f"  [x] Error processing transaction {transaction.reference}: {str(e)}"
                     )
                 )
 
