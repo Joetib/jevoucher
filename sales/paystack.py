@@ -24,7 +24,8 @@ class PayStack:
         )
         if response.status_code == 200:
             response_data = response.json()
-            return response_data["status"], response_data["data"]
-
-        response_data = response.json()
-        return response_data["status"], response_data["message"]
+            if not response_data["status"]:
+                return False, response_data["message"]
+            data: dict = response_data["data"]
+            return data["status"] == "success", data
+        return False, "Payment verification failed"
