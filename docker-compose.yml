@@ -3,13 +3,13 @@ version: '3.8'
 services:
   web:
     build: .
-    command: bash -c "service cron start && gunicorn jevoucher.wsgi:application --bind 0.0.0.0:8000"
+    command: bash -c "service cron start && python manage.py migrate && python manage.py createcachetable && gunicorn jevoucher.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - ./staticfiles:/app/staticfiles
       - ./media:/app/media
       - ./.env:/app/.env:ro
     ports:
-      - 8002:8000
+      - 8005:8000
     env_file:
       - .env
     environment:

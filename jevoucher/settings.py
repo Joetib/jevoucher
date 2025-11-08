@@ -52,8 +52,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "whitenoise.runserver_nostatic",
-    # Local apps
+    # Third-party apps
     "corsheaders",
+    "tailwind",
+    "theme",
+    # Local apps
     "sales.apps.SalesConfig",
 ]
 
@@ -163,6 +166,21 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 PAYSTACK_SECRET_KEY = config("PAYSTACK_SECRET_KEY", default="")
 PAYSTACK_PUBLIC_KEY = config("PAYSTACK_PUBLIC_KEY", default="")
 
+# Dummy email for transactions (user doesn't need to provide email)
+DUMMY_TRANSACTION_EMAIL = config(
+    "DUMMY_TRANSACTION_EMAIL", default="noreply@jevoucher.com"
+)
+
+# Tailwind settings
+TAILWIND_APP_NAME = "theme"
+INTERNAL_IPS = ["127.0.0.1"]
+
+# Cache settings for user data
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+    }
+}
 
 # Security settings for SSL/HTTPS
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

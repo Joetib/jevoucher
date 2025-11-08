@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from django.urls import reverse
 from django.utils import timezone
+from django.core.cache import cache
 
 from sales.sms import SmsApi
 
@@ -38,16 +39,27 @@ class InitiatePaymentView(TemplateView):
 
         # Add Paystack public key to context
         context["paystack_public_key"] = settings.PAYSTACK_PUBLIC_KEY
+        
+        # Get cached phone number if available
+        session_key = self.request.session.session_key
+        if session_key:
+            cached_phone = cache.get(f"user_phone_{session_key}")
+            if cached_phone:
+                context["cached_phone"] = cached_phone
+        
         return context
 
     def post(self, request, *args, **kwargs):
+        """
+        Initiate payment transaction without requiring user email.
+        Uses dummy email from settings and caches phone number for future use.
+        """
         duration_id = request.POST.get("duration")
-        email = request.POST.get("email")
         phone = request.POST.get("phone")
 
-        if not all([duration_id, email]):
+        if not all([duration_id, phone]):
             return JsonResponse(
-                {"status": "error", "message": "Duration and email are required"},
+                {"status": "error", "message": "Duration and phone number are required"},
                 status=400,
             )
 
@@ -67,11 +79,20 @@ class InitiatePaymentView(TemplateView):
                 status=400,
             )
 
+        # Use dummy email from settings
+        dummy_email = settings.DUMMY_TRANSACTION_EMAIL
+        
+        # Cache phone number for this user session (expires in 30 days)
+        if not request.session.session_key:
+            request.session.create()
+        session_key = request.session.session_key
+        cache.set(f"user_phone_{session_key}", phone, timeout=60*60*24*30)  # 30 days
+
         # Create transaction
         transaction = Transaction.objects.create(
             voucher=voucher,
             amount=duration.price,
-            customer_email=email,
+            customer_email=dummy_email,
             customer_phone=phone,
         )
 
@@ -79,7 +100,7 @@ class InitiatePaymentView(TemplateView):
         payment_data = {
             "reference": str(transaction.reference),
             "amount": float(transaction.amount) * 100,  # Paystack amount in kobo
-            "email": email,
+            "email": dummy_email,
             "callback_url": request.build_absolute_uri(
                 reverse("sales:verify_payment", args=[transaction.reference])
             ),

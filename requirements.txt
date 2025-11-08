@@ -16,5 +16,7 @@ wheel==0.45.1
 PyPDF2==3.0.1
 gunicorn~=23.0.0
 whitenoise~=6.9.0
-django-cors-headers~= 4.7.0
+django-cors-headers~=4.7.0
 IPython~=9.3.0
+django-tailwind==4.4.1
+honcho

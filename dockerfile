@@ -10,6 +10,8 @@ WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
+    nodejs \
+    npm \
     build-essential \
     libpq-dev \
     cron \
@@ -33,12 +35,13 @@ RUN touch /app/task.log
 COPY . .
 
 
-
-
-
 # Start cron service
 RUN service cron start
 RUN crontab /etc/cron.d/check_transactions
+
+RUN SECRET_KEY=nothing python manage.py tailwind install --no-package-lock
+RUN SECRET_KEY=nothing python manage.py tailwind build 
+RUN SECRET_KEY=nothing python manage.py collectstatic
 
 # Collect static files
 RUN python manage.py collectstatic --noinput

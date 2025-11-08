@@ -1,324 +1,330 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Joetib Solutions - WiFi Vouchers{% endblock %}</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>{% block title %}Joetib Solutions - Premium WiFi Access{% endblock %}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts - Sophisticated Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        luxury: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            950: '#082f49',
+                        },
+                        premium: {
+                            50: '#faf5ff',
+                            100: '#f3e8ff',
+                            200: '#e9d5ff',
+                            300: '#d8b4fe',
+                            400: '#c084fc',
+                            500: '#a855f7',
+                            600: '#9333ea',
+                            700: '#7e22ce',
+                            800: '#6b21a8',
+                            900: '#581c87',
+                            950: '#3b0764',
+                        },
+                        dark: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    },
+                }
+            }
+        }
+    </script>
+    
     <style>
-        .main-container {
-            min-height: calc(100vh - 200px);
-        }
-
-        :root {
-            --accent: #df0a0a;
-            /* Indian Red */
-            --accent-hover: #DC143C;
-            /* Crimson */
-            --accent-dark: #f85e04;
-            /* Dark Red */
-            --accent-light: #FFE4E1;
-            /* Misty Rose */
-            --neutral-bg: #fff;
-            /* Lavender Blush */
-            --card-bg: #fff;
-            --border: #FFB6C1;
-            /* Light Pink */
-            --text-main: #8B0000;
-            /* Dark Red */
-            --text-muted: #B22222;
-            /* Firebrick */
-            --success: #228B22;
-            /* Forest Green */
-            --danger: #FF0000;
-            /* Red */
-        }
-
-        /* :root {
-            --accent: #7c3aed;
-            --accent-hover: #6d28d9;
-            --accent-light: #ede9fe;
-            --neutral-bg: #f8fafc;
-            --card-bg: #fff;
-            --border: #e2e8f0;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --success: #10b981;
-            --danger: #ef4444;
-        } */
-
-        html,
         body {
-            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-            /* background: var(--neutral-bg); */
-            color: var(--text-main);
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-
-
-            background: linear-gradient(-20deg,
-                    var(--accent) 0%,
-                    var(--accent) 33%,
-                    var(--neutral-bg) 33%,
-                    var(--neutral-bg) 38%,
-                    var(--accent) 38%,
-                    var(--accent) 42%,
-                    var(--neutral-bg) 42%,
-                    var(--neutral-bg) 100%);
+            font-family: 'Inter', sans-serif;
         }
-
-
-
-
-
-        .noise {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: repeating-linear-gradient(45deg,
-                    rgba(0, 0, 0, 0.02) 0px,
-                    rgba(0, 0, 0, 0.03) 2px,
-                    transparent 2px,
-                    transparent 4px);
-            opacity: 1;
-            z-index: 3;
-            pointer-events: none;
-            clip-path: polygon(0% 0%,
-                    100% 0%,
-                    100% 100%,
-                    0% 100%);
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
         }
-
-        .navbar {
-            background: rgba(255, 255, 255, 0.8);
-            border-bottom: 1px solid var(--border);
-            box-shadow: 0 2px 8px 0 rgba(124, 58, 237, 0.05);
-            backdrop-filter: blur(8px);
+        
+        /* Premium gradient background */
+        .premium-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0c4a6e 100%);
         }
-
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: #333 !important;
-            letter-spacing: 0.5px;
+        
+        /* Glassmorphism effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .card {
-            border: none;
-            border-radius: 18px;
-            background: var(--card-bg);
-            box-shadow: 0 4px 24px 0 rgba(124, 58, 237, 0.08);
-            transition: box-shadow 0.2s, transform 0.2s;
-            backdrop-filter: blur(8px);
+        
+        .glass-white {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
-
-        .card:hover {
-            box-shadow: 0 8px 32px 0 rgba(124, 58, 237, 0.12);
-            transform: translateY(-2px) scale(1.01);
-        }
-
-        .btn {
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1.08rem;
-            padding: 0.7rem 1.5rem;
-            transition: all 0.2s ease;
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            border: none;
-            color: #fff;
-            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.2);
-        }
-
-        .btn-primary:hover,
-        .btn-primary:focus {
-            background: var(--accent-hover);
-            color: #fff;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
-        }
-
-        .btn-outline-secondary {
-            color: var(--accent);
-            border: 1.5px solid var(--accent);
-            background: #fff;
-        }
-
-        .btn-outline-secondary:hover,
-        .btn-outline-secondary:focus {
-            background: var(--accent-light);
-            color: var(--accent-hover);
-            border-color: var(--accent-hover);
-            transform: translateY(-1px);
-        }
-
-        .form-control {
-            border-radius: 8px;
-            border: 1.5px solid var(--border);
-            font-size: 1.05rem;
-            padding: 0.7rem 1.1rem;
-            transition: all 0.2s ease;
-        }
-
-        .form-control:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.15);
-        }
-
-        .alert {
-            border-radius: 8px;
-            border: none;
-            padding: 1.1rem 1.2rem;
-            font-size: 1.05rem;
-            backdrop-filter: blur(8px);
-        }
-
-        .footer {
-            background: rgba(255, 255, 255, 0.8);
-            color: var(--text-muted);
-            border-top: 1px solid var(--border);
-            padding: 2rem 0 1rem 0;
-            margin-top: 4rem;
-            font-size: 1.05rem;
-            backdrop-filter: blur(8px);
-        }
-
-        .price-tag {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--accent);
-            margin: 1.2rem 0 0.7rem 0;
-        }
-
-        .duration-badge {
-            background: var(--accent-light);
-            color: var(--accent);
-            padding: 0.5rem 1.1rem;
-            border-radius: 16px;
-            font-weight: 600;
-            font-size: 1.05rem;
-            margin-bottom: 1rem;
-            display: inline-block;
-        }
-
-        .main-container {
-            padding: 2.5rem 0 2rem 0;
-        }
-
-        .page-header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .page-header h1 {
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 0.7rem;
-        }
-
-        .page-header p {
-            color: var(--text-muted);
-            font-size: 1.13rem;
-        }
-
-        .spinner-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            backdrop-filter: blur(4px);
-        }
-
-        .spinner-border {
-            width: 3rem;
-            height: 3rem;
-            color: var(--accent);
-        }
-
-        @media (max-width: 600px) {
-            .main-container {
-                padding: 1.2rem 0 1rem 0;
+        
+        /* Premium shine effect */
+        @keyframes shine {
+            to {
+                background-position: 200% center;
             }
-
-            .card {
-                border-radius: 12px;
-            }
+        }
+        
+        .shine {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background-size: 200% 100%;
+            animation: shine 3s infinite;
+        }
+        
+        /* Smooth transitions */
+        * {
+            transition-property: transform, box-shadow, background-color, border-color;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 300ms;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #0ea5e9, #7e22ce);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #38bdf8, #a855f7);
+        }
+        
+        /* Floating animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Glow effect */
+        .glow {
+            box-shadow: 0 0 40px rgba(14, 165, 233, 0.3);
+        }
+        
+        .glow-purple {
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.3);
         }
     </style>
+    
     {% block extra_css %}{% endblock %}
 </head>
 
-<body>
+<body class="h-full premium-gradient text-white">
     <!-- Loading Spinner -->
-    <div class="spinner-overlay" id="loading-spinner">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+    <div id="loading-spinner" class="hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center backdrop-blur-md">
+        <div class="glass-white rounded-3xl p-10 shadow-2xl flex flex-col items-center">
+            <div class="relative">
+                <div class="w-16 h-16 border-4 border-luxury-200 border-t-luxury-600 rounded-full animate-spin"></div>
+                <div class="absolute inset-0 w-16 h-16 border-4 border-premium-200 border-t-premium-600 rounded-full animate-spin" style="animation-delay: -0.15s; animation-direction: reverse;"></div>
+            </div>
+            <p class="text-dark-900 font-semibold mt-6 text-lg">Processing...</p>
         </div>
     </div>
 
-    <!-- Noise texture -->
-    <div class="noise"></div>
-
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'sales:voucher_list' %}">
-                <i class="bi bi-wifi me-2"></i>Joetib Solutions
-            </a>
+    <!-- Navigation -->
+    <nav class="glass-white sticky top-0 z-40 border-b border-dark-200/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="{% url 'sales:voucher_list' %}" class="flex items-center space-x-4 group">
+                    <!-- Premium Logo -->
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-br from-luxury-500 to-premium-600 rounded-2xl blur opacity-60 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="relative bg-gradient-to-br from-luxury-600 to-premium-600 p-3 rounded-2xl transform group-hover:scale-110 transition-transform">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="font-display text-2xl font-bold bg-gradient-to-r from-luxury-600 to-premium-600 bg-clip-text text-transparent">
+                            WIFI HUB
+                        </span>
+                        <p class="text-xs text-dark-600 font-medium tracking-wider">PREMIUM CONNECTIVITY</p>
+                    </div>
+                </a>
+                
+                <!-- Trust Badge -->
+                <div class="hidden md:flex items-center space-x-2 text-dark-700">
+                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                    <span class="text-sm font-semibold">Secured by Paystack</span>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <main class="container px-4 px-md-0 main-container">
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-4" role="alert">
-            <i class="bi bi-info-circle me-2"></i>{{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endfor %}
-        {% endif %}
+    <!-- Main Content -->
+    <main class="min-h-[calc(100vh-16rem)] py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                <div class="mb-8 max-w-4xl mx-auto animate-fade-in">
+                    <div class="glass-white rounded-2xl border-l-4 p-5 shadow-xl {% if message.tags == 'error' %}border-red-500{% elif message.tags == 'success' %}border-emerald-500{% elif message.tags == 'warning' %}border-amber-500{% else %}border-luxury-500{% endif %}">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                {% if message.tags == 'error' %}
+                                <svg class="h-6 w-6 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                </svg>
+                                {% elif message.tags == 'success' %}
+                                <svg class="h-6 w-6 text-emerald-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                {% else %}
+                                <svg class="h-6 w-6 text-luxury-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                </svg>
+                                {% endif %}
+                            </div>
+                            <div class="ml-4">
+                                <p class="font-medium text-dark-900">{{ message }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
 
-        {% block content %}{% endblock %}
+            {% block content %}{% endblock %}
+        </div>
     </main>
 
-    <footer class="footer">
-        <div class="container text-center">
-            <p class="mb-0">&copy; {% now "Y" %} Joetib Solutions. All rights reserved.</p>
+    <!-- Footer -->
+    <footer class="glass-white border-t border-dark-200/20 mt-auto">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <!-- Brand -->
+                <div>
+                    <h3 class="font-display text-xl font-bold text-dark-900 mb-3">Joetib Solutions</h3>
+                    <p class="text-dark-600 text-sm leading-relaxed">
+                        Delivering premium WiFi connectivity with unmatched reliability and speed.
+                    </p>
+                </div>
+                
+                <!-- Features -->
+                <div>
+                    <h4 class="font-semibold text-dark-900 mb-3">Why Choose Us</h4>
+                    <ul class="space-y-2 text-sm text-dark-600">
+                        <li class="flex items-center">
+                            <svg class="w-4 h-4 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Unlimited bandwidth
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-4 h-4 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            99.9% uptime guarantee
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-4 h-4 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            24/7 premium support
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-semibold text-dark-900 mb-3">Support</h4>
+                    <p class="text-sm text-dark-600">
+                        Need help? Our team is here for you around the clock.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="border-t border-dark-200 pt-8 text-center">
+                <p class="text-dark-600 font-medium">
+                    &copy; {% now "Y" %} Joetib Solutions. All rights reserved.
+                </p>
+                <p class="text-xs text-dark-500 mt-2">
+                    Powered by Paystack • Enterprise-grade security
+                </p>
+            </div>
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Paystack JS -->
-    <script src="https://js.paystack.co/v1/inline.js"></script>
+     <script src="https://js.paystack.co/v2/inline.js"></script>
+    
     <!-- Custom JS -->
     <script>
         // Show loading spinner
         function showLoading() {
-            document.getElementById('loading-spinner').style.display = 'flex';
+            document.getElementById('loading-spinner').classList.remove('hidden');
         }
+        
         // Hide loading spinner
         function hideLoading() {
-            document.getElementById('loading-spinner').style.display = 'none';
+            document.getElementById('loading-spinner').classList.add('hidden');
         }
+        
+        // Auto-hide messages after 6 seconds
+        setTimeout(() => {
+            const messages = document.querySelectorAll('.animate-fade-in');
+            messages.forEach(msg => {
+                msg.style.transition = 'opacity 0.5s, transform 0.5s';
+                msg.style.opacity = '0';
+                msg.style.transform = 'translateY(-20px)';
+                setTimeout(() => msg.remove(), 500);
+            });
+        }, 6000);
     </script>
+    
     {% block extra_js %}{% endblock %}
 </body>
-
 </html>

@@ -1,66 +1,194 @@
 {% extends "sales/base.html" %}
 
-{% block title %}Available WiFi Vouchers - JeVoucher{% endblock %}
+{% block title %}Premium WiFi Plans - Joetib Solutions{% endblock %}
 
 {% block content %}
-<div class="page-header  rounded p-3">
-    <h1 style="color: var(--accent);">Choose Your WiFi Voucher</h1>
-    <p style="color: var(--accent);">Select a voucher duration that suits your needs
-    </p>
+<!-- Hero Section -->
+<div class="text-center mb-8 md:mb-16 relative px-4">
+    <!-- Decorative elements - hidden on mobile for performance -->
+    <div class="hidden md:block absolute top-0 left-1/4 w-72 h-72 bg-luxury-600 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float"></div>
+    <div class="hidden md:block absolute top-0 right-1/4 w-72 h-72 bg-premium-600 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float" style="animation-delay: 2s;"></div>
+    
+    <div class="relative">
+        <!-- Eyebrow -->
+        <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-full mb-4 md:mb-6 border border-white/20">
+            <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+            <span class="text-xs md:text-sm font-semibold tracking-wider text-white/90">PREMIUM CONNECTIVITY</span>
+        </div>
+        
+        <h1 class="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 leading-tight px-2">
+            <span class="bg-gradient-to-r from-white via-luxury-200 to-white bg-clip-text text-transparent">
+                Choose Your Plan
+            </span>
+        </h1>
+        
+        <p class="text-base md:text-xl lg:text-2xl text-white/80 max-w-3xl mx-auto leading-relaxed font-light px-4">
+            Experience lightning-fast, unlimited internet access.<br class="hidden sm:block"/>
+            Premium quality. Instant activation.
+        </p>
+    </div>
 </div>
 
-<div class="row row-cols-1 row-cols-md-4 g-3 justify-content-center">
+<!-- Pricing Cards -->
+{% if durations %}
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-16 relative z-10 px-4 justify-items-center max-w-7xl mx-auto">
     {% for duration in durations %}
-    <div class="col">
-        <div class="card h-100 pricing-card" style=>
-            <div class="card-body text-center p-3 d-flex flex-column">
-                <div class="duration-badge mb-2" style="max-width: fit-content; margin: 0 auto;">
-                    <i class="bi bi-clock me-2"></i>{{ duration.duration_hours }} Hours
-                </div>
-                <h5 class="card-title mb-2">{{ duration.name }}</h5>
-                <div class="price-tag mb-3">GH₵ {{ duration.price }}</div>
-                <div class="features mb-3 d-flex flex-column align-items-center">
-                    <div>
-                        <div class="feature-item">
-                            <i class="bi bi-check-circle-fill text-success me-2"></i>
-                            Instant Access
-                        </div>
-                        <div class="feature-item">
-                            <i class="bi bi-check-circle-fill text-success me-2"></i>
-                            High Speed
-                        </div>
-                        <div class="feature-item">
-                            <i class="bi bi-check-circle-fill text-success me-2"></i>
-                            24/7 Support
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-auto">
-                    <a href="{% url 'sales:initiate_payment' %}?duration={{ duration.id }}"
-                        class="btn btn-primary w-100">
-                        <i class="bi bi-cart-fill me-2"></i>Buy Now
-                    </a>
+    <div class="group relative transform hover:scale-105 transition-all duration-500 w-full max-w-sm">
+        <!-- Premium glow effect - reduced on mobile -->
+        <div class="hidden md:block absolute -inset-1 bg-gradient-to-r from-luxury-500 via-premium-500 to-luxury-500 rounded-3xl opacity-0 group-hover:opacity-20 blur-xl transition duration-500"></div>
+        
+        <!-- Card -->
+        <div class="relative glass-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden border border-dark-100 group-hover:border-luxury-300 transition-all duration-500 h-full">
+            <!-- Shine effect overlay - desktop only -->
+            <div class="hidden md:block absolute inset-0 shine opacity-0 group-hover:opacity-100"></div>
+            
+            <!-- Premium badge -->
+            <div class="absolute top-3 right-3 md:top-4 md:right-4">
+                <div class="bg-gradient-to-r from-luxury-600 to-premium-600 text-white text-xs font-bold px-2 py-1 md:px-3 rounded-full shadow-lg">
+                    POPULAR
                 </div>
             </div>
-        </div>
-    </div>
-    {% empty %}
-    <div class="col-12">
-        <div class="alert alert-info text-center">
-            <i class="bi bi-info-circle-fill me-2"></i>
-            No vouchers are currently available. Please check back later.
+            
+            <div class="relative text-center p-5 md:p-8">
+                <!-- Duration badge -->
+                <div class="inline-flex items-center justify-center space-x-1.5 md:space-x-2 px-3 py-1.5 md:px-4 md:py-2 bg-gradient-to-r from-luxury-50 to-premium-50 rounded-xl md:rounded-2xl mb-4 md:mb-6">
+                    <svg class="w-4 h-4 md:w-5 md:h-5 text-luxury-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="font-bold text-sm md:text-base text-dark-900">{{ duration.duration_hours }}h Access</span>
+                </div>
+                
+                <!-- Plan name -->
+                <h3 class="font-display text-xl md:text-2xl font-bold text-dark-900 mb-2">
+                    {{ duration.name }}
+                </h3>
+                
+                <p class="text-dark-600 text-xs md:text-sm mb-4 md:mb-6">Perfect for {% if duration.duration_hours <= 6 %}quick browsing{% elif duration.duration_hours <= 24 %}daily use{% else %}extended sessions{% endif %}</p>
+                
+                <!-- Price -->
+                <div class="mb-5 md:mb-8">
+                    <div class="flex items-baseline justify-center">
+                        <span class="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-luxury-600 to-premium-600 bg-clip-text text-transparent">
+                            {{ duration.price|floatformat:0 }}
+                        </span>
+                        <span class="text-xl md:text-2xl font-semibold text-dark-500 ml-2">GH₵</span>
+                    </div>
+                    {% comment %} <p class="text-dark-500 text-xs md:text-sm mt-2 text-center">One-time payment</p> {% endcomment %}
+                </div>
+                
+                <!-- CTA Button - Larger touch target on mobile -->
+                <a href="{% url 'sales:initiate_payment' %}?duration={{ duration.id }}" 
+                   class="block w-full bg-gradient-to-r from-luxury-600 to-premium-600 hover:from-luxury-700 hover:to-premium-700 text-white font-bold py-4 md:py-4 px-4 md:px-6 rounded-xl md:rounded-2xl transition-all duration-300 transform hover:shadow-2xl text-center text-base md:text-lg active:scale-95">
+                    <span class="flex items-center justify-center">
+                        <span>Get Started</span>
+                        <svg class="w-4 h-4 md:w-5 md:h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </span>
+                </a>
+            </div>
         </div>
     </div>
     {% endfor %}
 </div>
 
-{% if durations %}
-<div class="text-center mt-4">
-    <div class="card p-3 mx-auto" style="max-width: 500px;">
-        <h6 class="mb-2"><i class="bi bi-shield-check me-2"></i>Secure Payment</h6>
-        <p class="text-muted mb-0 small">
-            All transactions are secured and encrypted. We accept Mobile Money and Card payments through Paystack.
-        </p>
+<!-- Premium Features Section -->
+<div class="glass rounded-2xl md:rounded-3xl p-6 md:p-10 max-w-5xl mx-4 md:mx-auto mb-8 md:mb-16 border border-white/20 shadow-2xl">
+    <h3 class="font-display text-2xl md:text-3xl font-bold text-center mb-2 md:mb-4 text-white">
+        Every Plan Includes
+    </h3>
+    <p class="text-center text-white/70 mb-6 md:mb-10 text-sm md:text-lg">Premium features across all tiers</p>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
+        <!-- Feature 1 -->
+        <div class="text-center group">
+            <div class="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-luxury-500/20 to-premium-500/20 rounded-xl md:rounded-2xl mb-3 md:mb-4 group-hover:scale-110 transition-transform border border-white/10">
+                <svg class="w-7 h-7 md:w-8 md:h-8 text-luxury-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+            </div>
+            <h4 class="font-bold text-white text-base md:text-lg mb-1 md:mb-2">Unlimited Data</h4>
+            <p class="text-white/70 text-xs md:text-sm leading-relaxed">No caps, no throttling, no limits on your usage</p>
+        </div>
+        
+        <!-- Feature 2 -->
+        <div class="text-center group">
+            <div class="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 rounded-xl md:rounded-2xl mb-3 md:mb-4 group-hover:scale-110 transition-transform border border-white/10">
+                <svg class="w-7 h-7 md:w-8 md:h-8 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+            </div>
+            <h4 class="font-bold text-white text-base md:text-lg mb-1 md:mb-2">99.9% Uptime</h4>
+            <p class="text-white/70 text-xs md:text-sm leading-relaxed">Enterprise-grade reliability you can trust</p>
+        </div>
+        
+        <!-- Feature 3 -->
+        <div class="text-center group">
+            <div class="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl md:rounded-2xl mb-3 md:mb-4 group-hover:scale-110 transition-transform border border-white/10">
+                <svg class="w-7 h-7 md:w-8 md:h-8 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+            </div>
+            <h4 class="font-bold text-white text-base md:text-lg mb-1 md:mb-2">Lightning Speed</h4>
+            <p class="text-white/70 text-xs md:text-sm leading-relaxed">Ultra-fast connections for seamless streaming</p>
+        </div>
+    </div>
+    
+    <!-- Trust indicators -->
+    <div class="mt-6 md:mt-10 pt-6 md:pt-8 border-t border-white/10">
+        <div class="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 md:gap-6 text-white/60 text-xs md:text-sm">
+            <div class="flex items-center space-x-2">
+                <svg class="w-4 h-4 md:w-5 md:h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+                <span class="font-medium">Secure Payments</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <svg class="w-4 h-4 md:w-5 md:h-5 text-luxury-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+                <span class="font-medium">Instant Activation</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <svg class="w-4 h-4 md:w-5 md:h-5 text-premium-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+                <span class="font-medium">24/7 Support</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Social Proof -->
+<div class="text-center glass rounded-xl md:rounded-2xl p-6 md:p-8 max-w-2xl mx-4 md:mx-auto border border-white/20">
+    <div class="flex justify-center mb-3 md:mb-4">
+        <div class="flex -space-x-2">
+            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-luxury-400 to-luxury-600 border-2 border-white"></div>
+            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-premium-400 to-premium-600 border-2 border-white"></div>
+            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 border-2 border-white"></div>
+            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border-2 border-white flex items-center justify-center text-white text-xs md:text-sm font-bold">
+                1K+
+            </div>
+        </div>
+    </div>
+    <p class="text-white font-semibold text-base md:text-lg mb-1 md:mb-2">Trusted by thousands</p>
+    <p class="text-white/70 text-xs md:text-sm">Join our community of satisfied customers enjoying premium connectivity</p>
+</div>
+
+{% else %}
+<!-- Empty State -->
+<div class="max-w-md mx-auto text-center">
+    <div class="glass-white rounded-3xl shadow-2xl p-16">
+        <div class="w-24 h-24 bg-gradient-to-br from-dark-100 to-dark-200 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-12 h-12 text-dark-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+            </svg>
+        </div>
+        <h3 class="font-display text-3xl font-bold text-dark-900 mb-4">Currently Unavailable</h3>
+        <p class="text-dark-600 mb-8 leading-relaxed">We're restocking our vouchers. Please check back shortly!</p>
+        <button onclick="location.reload()" class="bg-gradient-to-r from-luxury-600 to-premium-600 hover:from-luxury-700 hover:to-premium-700 text-white font-semibold py-4 px-8 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl">
+            Refresh Page
+        </button>
     </div>
 </div>
 {% endif %}
@@ -68,35 +196,24 @@
 
 {% block extra_css %}
 <style>
-    .pricing-card {
-        transition: transform 0.2s;
-        border: 1px solid var(--border);
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-
-    .pricing-card:hover {
-        transform: translateY(-5px);
+    
+    .animate-fade-in {
+        animation: fade-in 0.8s ease-out;
     }
-
-    .feature-item {
-        margin-bottom: 0.3rem;
-        color: var(--text-muted);
-        font-size: 0.9rem;
-    }
-
-    .features {
-        text-align: left;
-        padding: 0 0.5rem;
-    }
-
-    .duration-badge {
-        font-size: 0.9rem;
-        color: var(--text-muted);
-    }
-
-    .price-tag {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: var(--primary);
+    
+    /* Premium card hover effect */
+    .group:hover .shine {
+        animation: shine 1.5s ease-in-out;
     }
 </style>
 {% endblock %}
