@@ -168,7 +168,7 @@ PAYSTACK_PUBLIC_KEY = config("PAYSTACK_PUBLIC_KEY", default="")
 
 # Dummy email for transactions (user doesn't need to provide email)
 DUMMY_TRANSACTION_EMAIL = config(
-    "DUMMY_TRANSACTION_EMAIL", default="noreply@jevoucher.com"
+    "DUMMY_TRANSACTION_EMAIL", default="noreply@joetib.com"
 )
 
 # Tailwind settings
