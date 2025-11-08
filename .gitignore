@@ -18,3 +18,4 @@ __pycache__/
 *.pyzw
 *.pyzwz
 postgres_data/
+node_modules/

@@ -3,6 +3,7 @@ version: '3.8'
 services:
   web:
     build: .
+    restart: unless-stopped
     command: bash -c "service cron start && gunicorn jevoucher.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - ./staticfiles:/app/staticfiles
@@ -22,6 +23,7 @@ services:
 
   db:
     image: postgres:15
+    restart: unless-stopped
     volumes:
       - ./postgres_data:/var/lib/postgresql/data/
     environment:
