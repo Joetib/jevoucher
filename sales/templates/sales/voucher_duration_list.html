@@ -31,9 +31,9 @@
 
 <!-- Pricing Cards -->
 {% if durations %}
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-16 relative z-10 px-4 max-w-7xl mx-auto justify-items-center items-center">
+<div class="flex flex-wrap justify-center gap-4 md:gap-6 mb-8 md:mb-16 relative z-10 px-4 max-w-7xl mx-auto">
     {% for duration in durations %}
-    <div class="group relative transform hover:scale-105 transition-all duration-500 w-full max-w-sm">
+    <div class="group relative transform hover:scale-105 transition-all duration-500 w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] max-w-sm">
         <!-- Premium glow effect - reduced on mobile -->
         <div class="hidden md:block absolute -inset-1 bg-gradient-to-r from-luxury-500 via-premium-500 to-luxury-500 rounded-3xl opacity-0 group-hover:opacity-20 blur-xl transition duration-500"></div>
         
